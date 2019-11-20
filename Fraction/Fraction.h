@@ -13,9 +13,11 @@ private:
 	long denominator;
 	static long NOD(long a, long b);
 
-	static void ToSimple(long& a, long& b);
+	
 
-	static void ToPositiveD(long& a, long& b);
+	void Reduce();
+
+	void SetNom(long nom, bool ShouldReduce);
 
 
 public:
@@ -71,4 +73,26 @@ public:
 	friend ostream& operator<< (ostream&, const Fraction&);
 
 };
+
+class Fraction_exception : public exception {
+public:
+	Fraction_exception(const char* const message)
+		: exception(message) {}
+	Fraction_exception(const Fraction_exception& right)
+
+		: exception(right) {}
+
+};
+
+/*class my_exception_action : public exception {
+public:
+	my_exception_action(const char* const message)
+		: exception(message) {}
+	my_exception_action(const my_exception_action& right)
+
+		: exception(right) {}
+
+};*/
+
+
 

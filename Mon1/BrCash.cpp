@@ -29,14 +29,14 @@ BrCash::~BrCash()
 void BrCash::SetPounds(int p)
 {
 	if (abs(p) > 1000000000)
-		throw runtime_error("wrong anount of money(bigger than max)");
+		throw my_exception_constr("wrong anount of money(bigger than max)(c)");
 	pounds = p;
 }
 
 void BrCash::SetShillings(int s)
 {
 	if(s>20)
-		throw runtime_error("wrong anount of money(1)");
+		throw my_exception_constr("wrong anount of money(1)(c)");
 	shillings = s;
 }
 
@@ -44,34 +44,34 @@ void BrCash::SetPences(float pe)
 {
 	float ep = pe - floor(pe);
 	if (abs(ep - 0.5) != 0 && ep != 0)
-	     throw runtime_error("wrong input of money(pences err)");
+	     throw my_exception_constr("wrong input of money(pences err)(c)");
 	else if(pe>12)
-		throw runtime_error("wrong anount of money(1)");
+		throw my_exception_constr("wrong anount of money(1)(c)");
 	pences = pe;
 }
 
-string BrCash::GetPounds()const
+ostream& BrCash::GetPounds(ostream& s)
 {
-	string res;
-	res=to_string(pounds) + " pd.";
 
-	return res;
+	s << pounds << " po."<<endl;
+
+	return s;
 }
 
-string BrCash::GetShillings()const
+ostream& BrCash::GetShillings(ostream& s)
 {
-	string res;
-	res = to_string(shillings) + " sh.";
 
-	return res;
+	s << shillings << " sh."<<endl;
+
+	return s;
 }
 
-string BrCash::GetPences()const
+ostream& BrCash::GetPences(ostream&s)
 {
-	string res;
-	res = to_string(pences) + " pe.";
+	
+	s<< pences << " pe." << endl;
 
-	return res;
+	return s;
 }
 void BrCash::CheckPeAndSh(int &po, int &sh, float &pe)
 {

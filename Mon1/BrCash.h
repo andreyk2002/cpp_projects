@@ -23,9 +23,9 @@ class BrCash
 		void SetPounds(int p);
 		void SetShillings(int s);
 		void SetPences(float pe);
-		string GetPounds()const;
-		string GetShillings()const;
-		string GetPences()const;
+		ostream& GetPounds(ostream&);
+		ostream& GetShillings(ostream&);
+		ostream& GetPences(ostream&);
 		
 
 		BrCash operator - () const;
@@ -44,6 +44,19 @@ class BrCash
 		friend ostream& operator<< (ostream&, const BrCash&);
 	
 };
+
+class my_exception_constr : public exception {
+public:
+	my_exception_constr(const char* const message)
+		: exception(message) {}
+	my_exception_constr(const my_exception_constr& right)
+
+		: exception(right) {}
+
+};
+
+
+
 #ifdef DEBUG
 
 

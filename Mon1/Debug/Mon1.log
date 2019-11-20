@@ -1,6 +1,0 @@
-﻿  BrCash.cpp
-  Mon1.cpp
-  Создание кода...
-C:\Users\User\source\repos\Mon1\BrCash.cpp(141): warning C4172: возвращение адреса локальной или временной переменной : result
-C:\Users\User\source\repos\Mon1\BrCash.cpp(134): warning C4172: возвращение адреса локальной или временной переменной : result
-  Mon1.vcxproj -> C:\Users\User\source\repos\Mon1\Debug\Mon1.exe

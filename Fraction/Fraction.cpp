@@ -6,16 +6,17 @@
 
 void Fraction::SetNom(long nom)
 {
-	nomerator = nom;
+	SetNom(nom, true);
 }
 
 void Fraction::SetDenom(long denom)
 {
 	if (denom == 0)
 	{
-		throw runtime_error("Critical error:division by zero\n");
+		throw Fraction_exception("Critical error:division by zero(c)\n");
 	}
 	denominator = denom;
+	Reduce();
 }
 
 long Fraction::GetNom() const
@@ -42,15 +43,8 @@ Fraction::Fraction(long nomerator, long denominator)
 	{
 		Fraction();
 	}
-	if (denominator == 0)
-	{
-		//throw runtime_error("Critical error:division by zero\n");
-		SetDenom(denominator);
-	}
-	ToSimple(nomerator, denominator);
-	ToPositiveD(nomerator, denominator);
-	
-	SetNom(nomerator);
+		
+	SetNom(nomerator,false);
 	SetDenom(denominator);
 	
 }
@@ -74,22 +68,31 @@ long Fraction::NOD(long a, long b)
 	return a;
 }
 
-void Fraction::ToSimple(long &a,long &b)
+
+
+void Fraction::Reduce()
 {
-	long res = NOD(abs(a), abs(b));
-	b /= res;
-	a /= res;
+	if (denominator < 0)
+	{
+		nomerator = -nomerator;
+		denominator = -denominator;
+	}
+
+	long res = NOD(abs(nomerator), abs(denominator));
+	denominator /= res;
+	nomerator /= res;
+	
 }
 
-
-void Fraction::ToPositiveD(long &a, long &b)
+void Fraction::SetNom(long nom, bool ShouldReduce)
 {
-	if (b < 0)
+	if (ShouldReduce)
 	{
-		a=-a;
-		b=-b;
+		nomerator = nom;
+		Reduce();
 	}
-	
+	else
+		nomerator = nom;
 }
 
 
@@ -127,6 +130,7 @@ Fraction Fraction::operator*(const Fraction& f) const
 
 Fraction Fraction::operator/(const Fraction& f) const
 {
+	
 	return Fraction(nomerator * f.denominator, denominator * f.nomerator);
 }
 
@@ -147,6 +151,7 @@ Fraction Fraction::operator*(const long& l) const
 
 Fraction Fraction::operator/(const long& l) const
 {
+	
 	return Fraction(nomerator , denominator*l);
 }
 
@@ -193,6 +198,7 @@ Fraction::operator double()const
 
 Fraction operator+(const long& l, const Fraction& f)
 {
+	
 	return Fraction(l*f.denominator+f.nomerator,f.denominator);
 }
 
@@ -208,6 +214,8 @@ Fraction operator*(const long& l, const Fraction& f)
 
 Fraction operator/(const long& l, const Fraction&  f)
 {
+
+
 	return Fraction(l * f.denominator , f.nomerator);
 }
 
@@ -216,6 +224,6 @@ ostream& operator<<(ostream& s, const Fraction& f)
 	
 		s << f.nomerator << "/" << f.denominator << endl;
 		return s;
-	
 
 }
+
