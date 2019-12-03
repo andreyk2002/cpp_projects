@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4996)
 
 #include<iostream>
 #include<string.h>
@@ -6,11 +7,12 @@
 #include<memory>
 #include<exception>
 #include<algorithm>
+#include<vector>
 
 using namespace std;
 
-//template<typename T>
-typedef Infotype;
+template<typename Infotype>
+//typedef Infotype;// костыль в головной прог подкл сpp ,убиреам cpp классa из проекта и редактируемм как отдельный файл
 
 class Deque
 {
@@ -18,20 +20,37 @@ private:
 	struct DequeItem
 	{
 		Infotype info;
-		DequeItem* previous;
 		DequeItem* next;
+		DequeItem* previous;
 
+		template<typename Infotype>
 		DequeItem(Infotype Ainfo) : info(Ainfo), next(nullptr),
-			previous(nullptr) {}
+			previous(nullptr) {};
+		template<>
+		DequeItem(const char* AInfo) : next(nullptr), previous(nullptr)
+		{
+			info = new char[strlen(AInfo) + 1];
+			strcpy((char*)info, AInfo);
+		}
+		
 
 	};
+	
 	DequeItem* left, * right;
 	unsigned size;
 
 	void Erase();
 	void Clone(const Deque&);
 
+	void* PtrByIndex(unsigned k) const;
+
+	static int string_comp(const void*, const void*);
+	
+
 public:
+
+	
+
 
 	Deque() :left(nullptr), right(nullptr), size(0) {};
 	Deque(const Deque&);
@@ -42,23 +61,63 @@ public:
 	void Push_front(Infotype Ainfo);
 	bool Pop_back();
 	bool Pop_front();
-	//Infotype GetFirst() const;
+
+	void SetByIndex(Infotype ,unsigned ) const;
+	Infotype GetByIndex(unsigned k) const;
+	
 	//Infotype GetLast() const;
 	//bool IsEmpty()const;
 	unsigned GetSize()const;
+	Infotype& operator[](unsigned);
+	Infotype  operator[](unsigned) const;
 
-	Infotype operator[](unsigned) const;
+	
 
-	Infotype operator[](unsigned) const;
-
-	const Infotype& getByIndex(unsigned k) const;
+	
 
 	void Sort();
 
-	friend ostream& operator << (ostream&, const Deque&);
+	//friend ostream& operator << (ostream&, const Deque&);
 	ostream& Print(ostream&);
 	ostream& PrintReverse(ostream&);
 	
 	
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
