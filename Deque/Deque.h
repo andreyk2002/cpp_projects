@@ -12,7 +12,9 @@
 using namespace std;
 
 template<typename Infotype>
-//typedef Infotype;// костыль в головной прог подкл сpp ,убиреам cpp классa из проекта и редактируемм как отдельный файл
+
+
+
 
 class Deque
 {
@@ -41,10 +43,11 @@ private:
 
 	void Erase();
 	void Clone(const Deque&);
+	void Push_back(Infotype Ainfo,bool Erase);
 
 	void* PtrByIndex(unsigned k) const;
 
-	static int string_comp(const void*, const void*);
+	
 	
 
 public:

@@ -5,29 +5,52 @@
 
 using namespace std;
 
+namespace str
+{
+	int string_comp(const void* a, const void* b)
+	{
+		return strcmp(*(char**)a, *(char**)b);
 
+	}
+
+
+
+}
 
 template<typename Infotype>
 void Deque<Infotype>::Erase()
 {
-	while (Pop_back())
-		size = 0;
+	while (Pop_back());
+	size = 0;
 }
 
 template<typename Infotype>
 void Deque<Infotype>::Clone(const Deque& D)
 {
-	DequeItem* tmp;
-	tmp = D.left;
-
-
-	for (unsigned i = 0; i < D.size; i++)
+	try
 	{
-		Push_back(tmp->info);
-		tmp = tmp->next;
+		DequeItem* tmp;
+		tmp = D.left;
+
+
+		for (unsigned i = 0; i < D.size; i++)
+		{
+			Push_back(tmp->info);
+			tmp = tmp->next;
+		}
+	}
+
+	catch (...)
+	{
+		cout << "System exception!" << endl;
+
+		Erase();
+
 	}
 
 }
+
+
 
 template<typename Infotype>
 void* Deque<Infotype>::PtrByIndex(unsigned k) const
@@ -51,13 +74,6 @@ void* Deque<Infotype>::PtrByIndex(unsigned k) const
 
 }
 
-template<typename Infotype>
-int Deque<Infotype>::string_comp(const void* a, const void* b)//не фурычит !
-{
-	return strcmp(*(char**)a, *(char**)b);
-
-}
-
 
 
 template<typename Infotype>
@@ -76,7 +92,8 @@ Deque<Infotype>::~Deque()
 template<typename Infotype>
 Deque<Infotype>& Deque<Infotype>::operator=(const Deque& D)
 {
-	if (this != &D) {
+	if (this != &D)
+	{
 		Erase();
 		Clone(D);
 	}
@@ -86,33 +103,55 @@ Deque<Infotype>& Deque<Infotype>::operator=(const Deque& D)
 template<typename Infotype>
 void Deque<Infotype>::Push_back(Infotype Ainfo)
 {
-	DequeItem* tmp = new DequeItem(Ainfo);
-	if (size > 0)
+	try
 	{
-		right->next = tmp;
-		tmp->previous = right;
+		DequeItem* tmp = new DequeItem(Ainfo);
+		if (size > 0)
+		{
+			right->next = tmp;
+			tmp->previous = right;
+		}
+		else
+			left = tmp;
+		right = tmp;
+		size++;
 	}
-	else
-		left = tmp;
-	right = tmp;
-	size++;
+	catch (...)
+	{
+		Erase();
+		throw My_Deque_exception("Build errors ocurred");
+
+	}
+	    
+	
+
 }
 
 template<typename Infotype>
 void Deque<Infotype>::Push_front(Infotype Ainfo)
 {
-	DequeItem *tmp= new DequeItem(Ainfo);
-	if (size > 0)
+	try
 	{
-		left->previous = tmp;
-		tmp->next = left;
+
+		DequeItem* tmp = new DequeItem(Ainfo);
+		if (size > 0)
+		{
+			left->previous = tmp;
+			tmp->next = left;
+
+		}
+		else
+			right = tmp;
+		left = tmp;
+		size++;
+	}
+	catch (...)
+	{
+		Erase();
+		throw My_Deque_exception("Build errors ocurred");
 
 	}
-	else
-		right = tmp;
-	left = tmp;
-	size++;
-		
+
 }
 
 
@@ -181,19 +220,19 @@ bool Deque<const char*>::Pop_front()
 	if (size == 0)
 		right = nullptr;
 	return true;
-	
+
 }
 
 template<typename Infotype>
 Infotype Deque<Infotype>::GetByIndex(unsigned k)const
 {
-	return  (static_cast<DequeItem*>(PtrByIndex(k) ) )->info;//((DequeItem*)PtrByIndex(k))->info; ;
+	return  (static_cast<DequeItem*>(PtrByIndex(k)))->info;//((DequeItem*)PtrByIndex(k))->info; ;
 }
 
 template<typename Infotype>
 void Deque<Infotype>::SetByIndex(Infotype Ainfo, unsigned k)const
 {
-	 (static_cast<DequeItem*>(PtrByIndex(k) ) )->info = Ainfo;
+	(static_cast<DequeItem*>(PtrByIndex(k)))->info = Ainfo;
 }
 
 
@@ -227,20 +266,20 @@ InfoType& Deque<InfoType> ::operator[](unsigned k)
 
 template<typename Infotype>
 void Deque<Infotype>::Sort()
-{	
-	Infotype *sorter= new Infotype[size];
+{
+	Infotype* sorter = new Infotype[size];
 	for (unsigned i = 0; i < size; i++)
 	{
-		sorter[i]=(this->GetByIndex(i));
+		sorter[i] = (this->GetByIndex(i));
 	}
-	if(typeid(Infotype) == typeid(const char*))
-		qsort(sorter, size, sizeof(char**), Deque::string_comp);
+	if (typeid(Infotype) == typeid(const char*))
+		qsort(sorter, size, sizeof(char**), str::string_comp);
 	else
-	    sort(sorter, sorter + size);
-	
+		sort(sorter, sorter + size);
+
 	for (unsigned i = 0; i < size; i++)
 	{
-		this->SetByIndex(sorter[i],i);
+		this->SetByIndex(sorter[i], i);
 	}
 	delete[]sorter;;
 }
@@ -249,8 +288,12 @@ void Deque<Infotype>::Sort()
 template<typename Infotype>
 ostream& Deque<Infotype>::Print(ostream& s)
 {
+	DequeItem* tmp = left;
 	for (unsigned i = 0; i < size; i++)
-		s << "element  №" << i << " = " << this->GetByIndex(i) << "\n";
+	{
+		s << "element  №" << i << " = " << (*tmp).info << "\n";
+		tmp = tmp->next;
+	}
 	s << "\n";
 	return s;
 
@@ -260,8 +303,13 @@ ostream& Deque<Infotype>::Print(ostream& s)
 template<typename Infotype>
 ostream& Deque<Infotype>::PrintReverse(ostream& s)
 {
-	for (int i = size-1; i >=0; i--)
-		s << "element  №" << i << " = " << this->GetByIndex(i)<< "\n";
+
+	DequeItem* tmp = right;
+	for (int i = size - 1; i >= 0; i--)
+	{
+		s << "element  №" << i << " = " << (*tmp).info << "\n";
+		tmp = tmp->previous;
+	}
 	s << "\n";
 	return s;
 

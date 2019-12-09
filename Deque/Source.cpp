@@ -19,7 +19,12 @@ int main()
 		IntDeque.Push_back(8);
 		IntDeque.Push_front(12);
 
-		
+		/*for (unsigned i = 0; i < 36779825; i++)//366
+		{
+			IntDeque.Push_back(i);
+			if (i == 36779750)
+				cout << "yyy";
+		}*/
 		Deque <int> CopyInt = IntDeque;
 		cout << "Copy:" << endl;
 		CopyInt.Print(cout);
@@ -29,10 +34,7 @@ int main()
 		IntDeque.Print(cout);
 
 		cout <<"Size before deleting:"<< IntDeque.GetSize() << endl;
-		for (unsigned i = 0; i < IntDeque.GetSize()/2; i++)
-		{
-			IntDeque.Pop_back();
-		}
+		
 		IntDeque.Print(cout);
 		cout <<"Size after deleting:"<< IntDeque.GetSize() << endl;
 
@@ -44,9 +46,15 @@ int main()
 
 		cout << ex.what()<<endl;
 	}
+	catch (bad_alloc&)
+	{
+		cout << "You reached the memory limit" << endl;
+
+	}
 	catch (...)
 	{
-		cout << "Sys" << endl;
+		cout << "System exception was called" << endl;
+		return 1;
 	}
 	try {
 		cout << "Double: " << endl;
@@ -74,6 +82,7 @@ int main()
 		{
 			DoubleDeque.Pop_back();
 		}
+		
 		DoubleDeque.Print(cout);
 		cout << "Size after deleting:" << DoubleDeque.GetSize() << endl;
 
@@ -84,6 +93,12 @@ int main()
 	{
 
 		cout << ex.what() << endl;
+
+	}
+	catch (bad_alloc&)
+	{
+		cout << "You reached the memory limit" << endl;
+
 	}
 	catch (...)
 	{
@@ -103,7 +118,13 @@ int main()
 	CharDeque.Push_back("dsfscsdf");
 	CharDeque.Push_front("sdfds");
 	CharDeque.Push_front("Aa");
-	Deque <const char*> CopyChar = CharDeque;
+	
+	for (unsigned i = 0; i < 7823050; i++)//366
+	{
+		CharDeque.Push_back("dshadihgpiagrosdhfgahddgpieutpihrdgfifg;fhgiuaugpojslhgiuaygupshfbkuuahfpgjsifbgiuaey");
+		
+	}
+	Deque <const char*> CopyChar(CharDeque);
 	CopyChar.Print(cout);
 	CharDeque.Sort();
 	cout << endl;
@@ -125,9 +146,14 @@ int main()
 
 		cout << ex.what() << endl;
 	}
+	catch (bad_alloc&)
+	{
+		cout << "You reached the memory limit" << endl;
+
+	}
 	catch (...)
 	{
-		cout << "Sys" << endl;
+		cout << "System exception" << endl;
 	}
 
 
