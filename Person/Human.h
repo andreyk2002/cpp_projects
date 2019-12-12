@@ -4,7 +4,7 @@
 #include<string>
 #include<exception>
 #include<memory>
-#include<ctime>
+
 
 using namespace std;
 
@@ -12,6 +12,9 @@ using namespace std;
 class Person
 {
 public:
+
+
+	bool operator<(const Person& a)const;
 	enum class Gender { male, female };
 
 	Person(const char*, Gender);
@@ -19,11 +22,11 @@ public:
 	virtual ~Person();
 
 
-	string GetGender();//??
+	string GetGender() const;//??
 	const char* GetName()const;
 	const char* GetMotherName()const;
 	const char* GetFatherName()const;
-	int GetID();
+	int GetID()const;
 
 	void SetName(const char*);
 
@@ -34,22 +37,25 @@ public:
 
 
 	Person& operator =(const Person&);
-	friend ostream& operator<<(ostream&, const Person);
+	friend ostream& operator<<(ostream&, const Person&);
+
+	
 private:
-	void Erase();
+	void Erase() const;
 	void Clone(const Person&);
 
 	char* name;
 	static int next_ID;
-	const int ID;
+	const int ID = 0;
 	Gender gender;
 	Person* mother;
 	Person* father;
 
 	void SetGender(Gender);
-	void SetMother(Person*);//нормально?
+	void SetMother(Person*);
 	void SetFather(Person*);
 
+	
 };
 
 class Person_exception : public exception {
@@ -64,7 +70,7 @@ public:
 
 template<typename T>
 
-class My_SmartPtr : public shared_ptr<T>//??
+class My_SmartPtr: public shared_ptr<T>//??
 {
 public:
 	My_SmartPtr(T* ptr);
@@ -81,7 +87,7 @@ private:
 };
 
 template<typename T>
-inline My_SmartPtr<T>::My_SmartPtr(T* ptr)
+inline My_SmartPtr<T>::My_SmartPtr(T* ptr)//privte constr
 {
 	this->ptr = ptr;
 
@@ -105,5 +111,10 @@ inline T* My_SmartPtr<T>::GetPtr() const
 {
 	return ptr;
 }
+
+
+
+
+
 
 

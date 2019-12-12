@@ -2,8 +2,10 @@
 
 #pragma warning(disable:4996)
 
-void Person::Erase()
+
+void Person::Erase()const
 {
+	//cout << this->GetName()<<":\t" << "deleted succesfully" << endl;
 	delete[]name;
 }
 
@@ -39,22 +41,23 @@ void Person::SetFather(Person* f)
 	father = f;
 }
 
+bool Person::operator<(const Person& a) const
+{
+	return (this->ID>a.ID);
+}
 
-Person::Person(const char* aname, Gender g) : ID(++next_ID)
+
+Person::Person(const char* aname, Gender g):Person(aname,nullptr,nullptr,g)
 {
 	if (ID > 2)
 		throw Person_exception("What about mother?");
-	SetFather(NULL);
-	SetMother(NULL);
-	SetGender(g);
-	SetName(aname);
-	
+		
 }
-Person::Person(const char* aname, Person* mother, Person* father, Gender g)
-	:ID(++next_ID)
+Person::Person
+(const char* aname, Person* m, Person* f, Gender g) : ID(++next_ID)
 {	
-	SetFather(father);
-	SetMother(mother);
+	SetFather(f);
+	SetMother(m);
 	SetGender(g);
 	SetName(aname);
 }
@@ -68,7 +71,7 @@ void Person::SetGender(Gender gen)
 {
 	gender = gen;
 }
-string Person::GetGender()
+string Person::GetGender() const//?
 {
 	if (gender == Gender::male)
 	{
@@ -118,11 +121,7 @@ Person Person::GiveBirth (Person *father,const char*name,Gender g)
 		throw Person_exception("Woman can't be a father of a child!");
 	if (this->gender == Gender::male)
 		throw Person_exception("Man can't be a mother of a child");
-	// int xy = rand() % 2;
-
-	//Gender g;
-	//xy == 1 ? g = Gender::male : g = Gender::female;
-
+	
 	Person child(name, this, father, g);
 	return child;
 }
@@ -142,7 +141,7 @@ Person::Person(const Person& d) :ID(++next_ID)
 	Clone(d);
 }
 
-int Person::GetID()
+int Person::GetID()const
 {
 	return ID;
 }
@@ -157,7 +156,7 @@ Person& Person::operator=(const Person& p)
 }
 int Person::next_ID = 0;
 
-ostream& operator<<(ostream& s,  Person p)//??
+ostream& operator<<(ostream& s,const  Person& p)//??
 {
 	if (p.mother == NULL)
 	{
