@@ -8,12 +8,16 @@ protected:
 	void AbstractMethod() const override {};
 public:
 	std::string GetColor()const;
+	std::string GetDrinkName()const override;
 
 	MineralWater(double Vol,const std::string &aname, bool isCarb, const std::string &CapCol);
 	MineralWater(double Vol, const std::string &aname, const std::string &CapCol);
 
 	friend std::ostream& operator<<(std::ostream&, const MineralWater&);
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class Lemonade : public NonAlcDrink
 {
@@ -23,6 +27,7 @@ protected:
 
 public:
 	std::string GetSugar()const;
+	std::string GetDrinkName()const override;
 
 	virtual ~Lemonade();
 	Lemonade(double Vol, const std::string &aname, bool isCarb, unsigned short int SugarCont);
@@ -31,6 +36,9 @@ public:
 	friend std::ostream& operator<<(std::ostream&, const Lemonade&);
 
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class Milk :public NonAlcDrink
 {
@@ -42,6 +50,7 @@ protected:
 public:
 
 	std::string GetFat()const;
+	std::string GetDrinkName()const override;
 	virtual ~Milk();
 	Milk(double Vol, const std::string &aname, unsigned short int FatCont);
 

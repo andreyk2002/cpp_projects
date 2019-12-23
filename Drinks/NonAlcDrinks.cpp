@@ -5,6 +5,11 @@ std::string MineralWater::GetColor() const
 	return CapColor;
 }
 
+std::string MineralWater::GetDrinkName() const
+{
+	return "Water " + DrinkName;
+}
+
 MineralWater::MineralWater(double Vol, const std::string &aname, bool isCarb,const std::string &CapCol):NonAlcDrink(Vol,aname,isCarb)
 {
 	this->CapColor = CapCol;
@@ -43,13 +48,18 @@ std::string Lemonade::GetSugar() const
 	return std::to_string(SugarContent)+"%";
 }
 
+std::string Lemonade::GetDrinkName() const
+{
+	return "Lemonade " + DrinkName;
+}
+
 Lemonade::~Lemonade()
 {
 }
 
 Lemonade::Lemonade(double Vol, const std::string &aname, bool isCarb, unsigned short int SugarCont) :NonAlcDrink(Vol, aname, isCarb)
 {
-	if (SugarCont > 100)
+	if (SugarCont > 100||SugarCont<0)
 		throw std::exception("Wrong consistance of sugar");
 	SugarContent = SugarCont;
 }
@@ -63,13 +73,18 @@ std::string Milk::GetFat() const
 	return std::to_string(FatContent) + "%";
 }
 
+std::string Milk::GetDrinkName() const
+{
+	return "Milk " + DrinkName;
+}
+
 Milk::~Milk()
 {
 }
 
 Milk::Milk(double Vol, const std::string &aname, unsigned short int FatCont) :NonAlcDrink(Vol, aname, false)
 {
-	if (FatCont > 100)
+	if (FatCont > 100||FatCont<0)
 		throw std::exception("Wrong consistance of fat");
 	FatContent = FatCont;
 }

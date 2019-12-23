@@ -8,6 +8,8 @@ public:
 	virtual ~Beer();
 	Beer(double Vol,const std::string &aname, double Str, Engridient en);
 	std::string GetEngridient() const ;
+    std::string GetDrinkName()const override;
+
 
 	friend std::ostream& operator<<(std::ostream&, const Beer&);
 
@@ -30,6 +32,7 @@ public:
 
 	std::string GetCategory() const;
 	std::string GetYear()const;
+	std::string GetDrinkName()const override;
 
 	friend std::ostream& operator<<(std::ostream&, const Vine&);
 	
@@ -57,6 +60,7 @@ public:
 
 	std::string GetCountry()const;
 	std::string GetStars()const;
+	std::string GetDrinkName()const override;
 
 	friend std::ostream& operator<<(std::ostream&, const Brandy&);
 };

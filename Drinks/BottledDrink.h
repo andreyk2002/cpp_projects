@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 #include<string>
-#include<exception>
+#include"DrinkException.h"
 #include<Windows.h>
 
 
@@ -15,13 +15,15 @@ protected:
 	double Volume;
 	double BottleVolume;
 	virtual void AbstractMethod() const = 0;
-	static std::string My_to_string(double num) ;
+	
 
 public:
 	std::string GetVolume()const;
 	void SetVolume(double volume);
 
-	std::string GetDrinkName()const;
+     BottledDrink& operator =(const BottledDrink&);
+
+	virtual std::string GetDrinkName()const;
 	void SetName(const std:: string &name);
 
 	std::string GetMaxVolume()const;

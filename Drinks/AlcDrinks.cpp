@@ -27,6 +27,11 @@ std::string Beer::GetEngridient()const
 
 }
 
+std::string Beer::GetDrinkName() const
+{
+	return "Beer "+ DrinkName;
+}
+
 std::ostream& operator<<(std::ostream& s, const Beer &B)//?
 {
 	s << "Beer name: " << B.DrinkName << "; Volume/MaxVolume: " << B.GetVolume() << "/" << B.GetMaxVolume();
@@ -98,6 +103,11 @@ std::string Vine::GetYear() const
 	return " Bottled in " + std::to_string(year);
 }
 
+std::string Vine::GetDrinkName() const
+{
+	return "Vine "+DrinkName;
+}
+
 
 ////////////////////////////////////////////////
 
@@ -127,4 +137,9 @@ std::string Brandy::GetCountry() const
 std::string Brandy::GetStars() const
 {
 	return "Extract:"+std::to_string(stars)+" stars";
+}
+
+std::string Brandy::GetDrinkName() const
+{
+	return "Brandy "+ DrinkName;
 }
